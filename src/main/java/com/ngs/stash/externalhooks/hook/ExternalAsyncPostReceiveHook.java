@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import com.atlassian.upm.api.license.PluginLicenseManager;
 
 public class ExternalAsyncPostReceiveHook
-    implements PostRepositoryHook<RepositoryHookRequest>, RepositorySettingsValidator
+    implements PostRepositoryHook<RepositoryHookRequest>, SettingsValidator
 {
     private final PluginLicenseManager pluginLicenseManager;
 

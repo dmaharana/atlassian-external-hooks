@@ -9,6 +9,8 @@ import com.atlassian.bitbucket.auth.*;
 import com.atlassian.bitbucket.permission.*;
 import com.atlassian.bitbucket.server.*;
 import com.atlassian.bitbucket.util.*;
+import com.atlassian.bitbucket.scope.Scope;
+import com.atlassian.bitbucket.scope.ScopeType;
 
 import java.util.logging.Logger;
 import static java.util.logging.Level.SEVERE;
@@ -28,7 +30,7 @@ import com.atlassian.upm.api.license.entity.PluginLicense;
 import com.atlassian.upm.api.util.Option;
 
 public class ExternalPreReceiveHook
-    implements PreRepositoryHook<RepositoryHookRequest>, RepositorySettingsValidator
+    implements PreRepositoryHook<RepositoryHookRequest>, SettingsValidator
 {
     private final PluginLicenseManager pluginLicenseManager;
 
@@ -259,8 +261,14 @@ public class ExternalPreReceiveHook
     @Override
     public void validate(
         Settings settings,
-        SettingsValidationErrors errors, Repository repository
+        SettingsValidationErrors errors,
+        Scope scope
     ) {
+        if (scope.getType() != ScopeType.REPOSITORY) {
+            // for now we support settings only on repository level
+            return;
+        }
+
         if (!this.isLicenseValid()) {
             errors.addFieldError("exe",
                 "License for External Hooks is expired.");

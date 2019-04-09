@@ -58,7 +58,7 @@ import javax.inject.Named;
 
 @Named("ExternalMergeCheckHook")
 public class ExternalMergeCheckHook
-    implements RepositoryMergeCheck, RepositorySettingsValidator
+    implements RepositoryMergeCheck, SettingsValidator
 {
     private static Logger log = Logger.getLogger(
         ExternalMergeCheckHook.class.getSimpleName()
